@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { CloudUpload, WandSparkles, X } from "lucide-react";
+import { CloudUpload, Loader2Icon, WandSparkles, X } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,37 +11,60 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import geminiIcound from "@/public/google.png"
+import { storage } from "@/configs/firebaseConfig";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import axios from "axios";
+//@ts-ignore
+import uuid4 from "uuid4";
+import { useAuthContext } from "@/app/provider";
+import { useRouter } from "next/navigation";
+import  Constants  from "@/data/Constants";
 
 export default function ImageUpload() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [file, setFile] = useState<any>();
+  const [model, setModel] = useState<string>();
+  const [description, setDescription] = useState<string>();
+  const { user } = useAuthContext();
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const dataModelList = [
-    {
-        name: "OpenAi 4o"
-
-    },
-    {
-        name: "Gemini Google",
-        icoun: geminiIcound
-
-    },
-    {
-        name: "OpenAi 4o"
-    },
-    {
-        name: "OpenAi 4o"
-    }
-  ];
 
   const onScreenSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
     if (files) {
-      console.log(files[0]);
       const imageUrl = URL.createObjectURL(files[0]);
+      setFile(files[0]);
       setPreviewUrl(imageUrl);
     }
+  };
+
+  const onConvertToCodeClick = async () => {
+    if (!file || !model || !description) {
+      console.log("Something went wrong, please verified all the information");
+      return;
+    }
+    setLoading(true);
+    const fileName = Date.now().toString();
+    const imageRef = ref(storage, "screenshots/" + fileName);
+    await uploadBytes(imageRef, file).then((response) => {
+      console.log("Screenshot Uploaded");
+    });
+
+    const imageUrl = await getDownloadURL(imageRef);
+    var id = uuid4();
+
+    const result = await axios.post("/api/screenshot-to-code", {
+      description: description,
+      imageUrl: imageUrl,
+      model: model,
+      uid: id,
+      email: user?.email,
+    });
+    console.log(result);
+    setLoading(false);
+    router.push("/view-code/" + id);
   };
 
   return (
@@ -82,18 +105,47 @@ export default function ImageUpload() {
               multiple={false}
               onChange={onScreenSelect}
             />
+
+            {/* <UploadDropzone
+  endpoint="imageUploader"
+  onClientUploadComplete={(res) => {
+    console.log("✅ Upload Response:", res);
+    if (res.length > 0) {
+      setPreviewUrl(res[0].ufsUrl); // Make sure `url` is correct
+    } else {
+      console.warn("⚠️ No files uploaded.");
+    }
+  }}
+  onUploadError={(error) => {
+    console.error("❌ Upload Failed:", error);
+  }}
+  onUploadProgress={(progress) => {
+    console.log("📊 Upload Progress:", progress);
+  }}
+  className="border-primary w-full ut-button:bg-primary ut-button:text-white ut-button:hover:bg-primary/90 ut-label:text-muted-foreground ut-allowed-content:text-muted-foreground"
+/> */}
           </div>
         )}
         <div className="p-7 border shadow-md rounded-lg">
           <h2>Select AI Model</h2>
-          <Select>
+          <Select onValueChange={(value) => setModel(value)}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              {Constants?.dataModelList.map((aimodel, index) => (
+                <SelectItem key={index} value={aimodel.name}>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={aimodel.icon}
+                      alt={aimodel.name}
+                      width={25}
+                      height={25}
+                    />
+                    <h2>{aimodel.name}</h2>
+                  </div>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
@@ -101,14 +153,20 @@ export default function ImageUpload() {
             Enter Description about your screenshot
           </h2>
           <Textarea
+            onChange={(event) => setDescription(event?.target.value)}
             className="mt-3 h-[200px]"
             placeholder="Write about your code"
           />
         </div>
       </div>
       <div className="mt-10 flex items-center justify-center">
-        <Button>
-          <WandSparkles /> Convert to Code
+        <Button onClick={onConvertToCodeClick} disabled={loading}>
+          {loading ? (
+            <Loader2Icon className="animate-spin" />
+          ) : (
+            <WandSparkles />
+          )}
+          Convert to Code
         </Button>
       </div>
     </div>
