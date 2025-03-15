@@ -1,7 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { CloudUpload, Loader2Icon, WandSparkles, X } from "lucide-react";
+import {
+  CloudUpload,
+  Loader2Icon,
+  OctagonAlert,
+  WandSparkles,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useContext, useState } from "react";
 import {
@@ -18,7 +24,8 @@ import axios from "axios";
 import uuid4 from "uuid4";
 import { useAuthContext } from "@/app/provider";
 import { useRouter } from "next/navigation";
-import  Constants  from "@/data/Constants";
+import Constants from "@/data/Constants";
+import { toast } from "sonner";
 
 export default function ImageUpload() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -29,6 +36,7 @@ export default function ImageUpload() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [creditAv, setCreditAv] = useState<string>("");
 
   const onScreenSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -62,7 +70,12 @@ export default function ImageUpload() {
       uid: id,
       email: user?.email,
     });
-    console.log(result);
+    if (result.data?.error) {
+      toast.warning(result.data?.error);
+      setLoading(false);
+
+      return;
+    }
     setLoading(false);
     router.push("/view-code/" + id);
   };

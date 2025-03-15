@@ -1,23 +1,36 @@
 import { db } from "@/configs/db";
-import { screenshotTable } from "@/configs/schema";
+import { screenshotTable, usersTable } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { description, imageUrl, model, uid, email } = await req.json();
 
-  const result = await db
-    .insert(screenshotTable)
-    .values({
-      model: model,
-      description: description,
-      imageUrl: imageUrl,
-      uid: uid,
-      createdBy: email,
-    })
-    .returning({ id: screenshotTable.id });
+  const creditResult = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.email, email));
 
-  return NextResponse.json({ result: result });
+  if (creditResult[0]?.credit && creditResult[0]?.credit > 0) {
+    const result = await db
+      .insert(screenshotTable)
+      .values({
+        model: model,
+        description: description,
+        imageUrl: imageUrl,
+        uid: uid,
+        createdBy: email,
+      })
+      .returning({ id: screenshotTable.id });
+
+      const data = await db.update(usersTable).set({
+        credit: creditResult[0]?.credit - 1
+      }).where(eq(usersTable.email, email));
+
+    return NextResponse.json({ result: result });
+  } else {
+    return NextResponse.json({ error: "Not enough credits" });
+  }
 }
 
 export async function GET(req: NextRequest) {
@@ -56,3 +69,4 @@ export async function PUT(req: NextRequest) {
 
   return NextResponse.json(result);
 }
+
