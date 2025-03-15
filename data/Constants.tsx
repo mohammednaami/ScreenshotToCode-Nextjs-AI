@@ -38,12 +38,41 @@ export default {
 - Add All small details and make UI UX design more professtional
 - Make sure to keep same color combination across the page
 - Add Some Colors to make it more modern UI UX
-- Use lucid library for icons
-- Do not use any third party library
+- You **must use** the **lucide-react** library for icons.
+- ❌ **DO NOT use** lucide-react-native. **Only import from lucide-react**.
+- Ensure all icon names are **correct** and exist in the **lucide-react** library.
+- **DO NOT use** any third party library
 - Only give react+ tailwindcss code and do not write any text other than code
-`,
-
-dataModelList: [
+ Do **not** start with jsx,typescript,javascript,tsx \`jsx\`, \`typescript\`, \`javascript\`, or \`tsx\``,
+ x : dedent`  You are a professional React developer and UI/UX designer.
+  
+ - Based on the provided wireframe image, generate a similar webpage.
+ - Write React + Tailwind CSS code that fully matches the description.
+ - The UI should be professional, modern, and visually appealing.
+ - Ensure consistency in the color scheme and layout across the page.
+ 
+ 🔹 **Icons**
+ - You **must use** the **lucide-react** library for icons.
+ - ❌ **DO NOT use** lucide-react-native. **Only import from lucide-react**.
+ - Ensure all icon names are **correct** and exist in the **lucide-react** library.
+ 
+ 🔹 **Components**
+ - Add a **Header and Footer** with relevant options from the wireframe or a general UI.
+ - For images, use this placeholder: **'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'**.
+ - Add all small details to improve **UI/UX quality**.
+ 
+ 🔹 **Code Style**
+ - Use **React with Tailwind CSS**.
+ - Use **only** the lucide-react library for icons.
+ - Do **not** use arbitrary Tailwind values (e.g., \`h-[600px]\`).
+ - Use margin and padding to ensure good spacing between elements.
+ - Ensure the React app is interactive when needed.
+ 
+ 🚀 **IMPORTANT:**
+ - Return **only** the React + Tailwind CSS code.
+ - Do **not** include any text, explanations, or placeholders.
+ - Do **not** start with jsx,typescript,javascript,tsx \`jsx\`, \`typescript\`, \`javascript\`, or \`tsx\`.`,
+  dataModelList: [
     {
       name: "Gemini Google",
       icon: geminiIcound,
@@ -65,4 +94,78 @@ dataModelList: [
       model: "gpt-4o-mini"
     }, */
   ],
+  DEPENDANCY: {
+    postcss: "^8",
+    tailwindcss: "^3.4.1",
+    autoprefixer: "^10.0.0",
+    uuid4: "^2.0.3",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7",
+    "lucide-react": "^0.474.0",
+    "react-router-dom": "^7.1.1",
+    "react-native-svg": "^14.1.0",
+    firebase: "^11.1.0",
+    "@google/generative-ai": "^0.21.0",
+    "date-fns": "^4.1.0",
+    "react-chartjs-2": "^5.3.0",
+    "chart.js": "^4.4.7",
+  },
+  FILES: {
+    "/App.css": {
+      code: `
+        @tailwind base;
+@tailwind components;
+@tailwind utilities;`,
+    },
+    "/tailwind.config.js": {
+      code: `
+        /** @type {import('tailwindcss').Config} */
+module.exports = {
+content: [
+"./src/**/*.{js,jsx,ts,tsx}",
+],
+theme: {
+extend: {},
+},
+plugins: [],
+}`,
+    },
+    "/postcss.config.js": {
+      code: `/** @type {import('postcss-load-config').Config} */
+const config = {
+plugins: {
+tailwindcss: {},
+},`,
+    },
+  },
 };
+
+
+const x = dedent`  You are a professional React developer and UI/UX designer.
+  
+  - Based on the provided wireframe image, generate a similar webpage.
+  - Write React + Tailwind CSS code that fully matches the description.
+  - The UI should be professional, modern, and visually appealing.
+  - Ensure consistency in the color scheme and layout across the page.
+  
+  🔹 **Icons**
+  - You **must use** the **lucide-react** library for icons.
+  - ❌ **DO NOT use** lucide-react-native. **Only import from lucide-react**.
+  - Ensure all icon names are **correct** and exist in the **lucide-react** library.
+  
+  🔹 **Components**
+  - Add a **Header and Footer** with relevant options from the wireframe or a general UI.
+  - For images, use this placeholder: **'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'**.
+  - Add all small details to improve **UI/UX quality**.
+  
+  🔹 **Code Style**
+  - Use **React with Tailwind CSS**.
+  - Use **only** the lucide-react library for icons.
+  - Do **not** use arbitrary Tailwind values (e.g., \`h-[600px]\`).
+  - Use margin and padding to ensure good spacing between elements.
+  - Ensure the React app is interactive when needed.
+  
+  🚀 **IMPORTANT:**
+  - Return **only** the React + Tailwind CSS code.
+  - Do **not** include any text, explanations, or placeholders.
+  - Do **not** start with jsx,typescript,javascript,tsx \`jsx\`, \`typescript\`, \`javascript\`, or \`tsx\`.`;

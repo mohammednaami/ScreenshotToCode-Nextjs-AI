@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 
 import { NextRequest } from "next/server";
-import { dataModelList } from "@/data/Constants";
+import Constants  from "@/data/Constants";
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -11,7 +11,7 @@ const openai = new OpenAI({
 export async function POST(req: NextRequest) {
   const { model, description, imageUrl } = await req.json();
 
-  const modelObj = dataModelList.find((item) => item.name == model);
+  const modelObj = Constants.dataModelList.find((item) => item.name == model);
   const modelName = modelObj?.model;
   const response = await openai.chat.completions.create({
     model: modelName ?? "google/gemini-2.0-pro-exp-02-05:free",

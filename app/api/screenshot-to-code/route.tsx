@@ -25,13 +25,34 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(reqUrl);
   const uid = searchParams?.get("uid");
+  const email = searchParams?.get("email");
   if (uid) {
     const screenshot = await db
       .select()
       .from(screenshotTable)
       .where(eq(screenshotTable.uid, uid));
     return NextResponse.json(screenshot[0]);
+  } else if (email) {
+    const screenshot = await db
+      .select()
+      .from(screenshotTable)
+      .where(eq(screenshotTable.createdBy, email));
+    return NextResponse.json(screenshot);
   }
 
   return NextResponse.json({ result: "No Record Found" });
+}
+
+export async function PUT(req: NextRequest) {
+  const { uid, codeResp } = await req.json();
+
+  const result = await db
+    .update(screenshotTable)
+    .set({
+      code: codeResp,
+    })
+    .where(eq(screenshotTable.uid, uid))
+    .returning({ uid: screenshotTable.uid });
+
+  return NextResponse.json(result);
 }
