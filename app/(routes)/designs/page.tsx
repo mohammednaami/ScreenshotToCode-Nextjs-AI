@@ -1,14 +1,14 @@
 "use client";
+import { useAuthContext } from "@/app/provider";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Record } from "@/app/(routes)/view-code/types";
 import DesignCard from "./_components/DesignCard";
 import { Loader2 } from "lucide-react";
-import { requireUser } from "../utils/Auth";
 
-async function DesignPage() {
+function DesignPage() {
 
-  const user = await requireUser();
+  const { user } = useAuthContext();
   const [screenshotList, setScreenshotList] = useState<Record[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
