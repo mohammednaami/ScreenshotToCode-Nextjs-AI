@@ -1,9 +1,8 @@
-import React from 'react'
 import DashboardProvider from './provider';
 import { Toaster } from "@/components/ui/sonner"
 
 
-function DashboardLayout({
+async function DashboardLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;

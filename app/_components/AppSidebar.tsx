@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home,Paintbrush, WalletCards } from "lucide-react";
+import { Home, Paintbrush, WalletCards } from "lucide-react";
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -35,7 +35,7 @@ const items = [
 ];
 
 export function AppSidebar() {
-    const path = usePathname();
+  const path = usePathname();
   return (
     <Sidebar>
       <SidebarHeader>
@@ -43,11 +43,13 @@ export function AppSidebar() {
           <Image
             src={"./logo.svg"}
             alt="logo"
-            width={100}
-            height={100}
-            className="w-full h-full"
+            width={50}
+            height={50}
+            className="mx-auto mb-2"
           />
-          <h2 className="text-sm text-gray-400 text-center">Build Awesome</h2>
+          <h2 className="text-sm text-gray-400 text-center">
+            Screenshot To Code
+          </h2>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -59,11 +61,12 @@ export function AppSidebar() {
                   href={item.url}
                   key={index}
                   className={`p-2 text-lg flex gap-2 items-center
-                                 hover:bg-gray-100 rounded-lg ${path==item.url && 'bg-gray-300'}`}>
+                                 hover:bg-gray-100 rounded-lg ${
+                                   path == item.url && "bg-gray-300"
+                                 }`}>
                   <item.icon className="h-5 w-5" />
                   <span>{item.title}</span>
                 </a>
-
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
