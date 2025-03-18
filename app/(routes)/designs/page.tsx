@@ -34,7 +34,7 @@ function DesignPage() {
           </h2>
         </div>
       ) : (
-        <div className="grid grid-cols-3 lg:grid-cols-4 gap-7 mt-10">
+        <div className="grid grid-cols-3 lg:grid-cols-3 gap-6 mt-10">
           {screenshotList?.map((item: Record) => (
             <DesignCard key={item.uid} item={item} />
           ))}

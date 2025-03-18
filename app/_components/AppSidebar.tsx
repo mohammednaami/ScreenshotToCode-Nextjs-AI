@@ -15,6 +15,7 @@ import { Home, Paintbrush, WalletCards } from "lucide-react";
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const items = [
   {
@@ -57,7 +58,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="mt-5">
               {items.map((item, index) => (
-                <a
+                <Link
                   href={item.url}
                   key={index}
                   className={`p-2 text-lg flex gap-2 items-center
@@ -66,7 +67,7 @@ export function AppSidebar() {
                                  }`}>
                   <item.icon className="h-5 w-5" />
                   <span>{item.title}</span>
-                </a>
+                </Link>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

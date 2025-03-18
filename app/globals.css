@@ -78,7 +78,7 @@ body {
 
 @layer base {
   :root {
-    --sidebar-background: 0 0% 98%;
+    --background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
@@ -99,3 +99,4 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
