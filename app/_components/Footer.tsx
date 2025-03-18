@@ -32,12 +32,12 @@ export function Footer() {
             </h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
               <li className="mb-4">
-                <Link href="/about" className="hover:underline">
+                <Link href="https://monaami.com/about" className="hover:underline">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:underline">
+                <Link href="https://monaami.com/projects" className="hover:underline">
                   Projects
                 </Link>
               </li>
@@ -76,12 +76,12 @@ export function Footer() {
             </h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
               <li className="mb-4">
-                <Link href="/privacy" className="hover:underline">
+                <Link href="https://monaami.com/privacy" className="hover:underline">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:underline">
+                <Link href="https://monaami.com/terms" className="hover:underline">
                   Terms & Conditions
                 </Link>
               </li>
