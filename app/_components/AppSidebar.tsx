@@ -49,7 +49,7 @@ export function AppSidebar() {
             className="mx-auto mb-2"
           />
           <h2 className="text-sm text-gray-400 text-center">
-            Screenshot To Code
+            Screenshot To Code AI
           </h2>
         </div>
       </SidebarHeader>
