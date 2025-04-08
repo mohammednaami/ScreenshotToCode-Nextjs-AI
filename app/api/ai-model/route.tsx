@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
 
   const modelObj = Constants.dataModelList.find((item) => item.name == model);
   const modelName = modelObj?.model;
+  console.log(modelName);
   const response = await openai.chat.completions.create({
     model: modelName ?? "google/gemini-2.0-pro-exp-02-05:free",
     stream: true,
