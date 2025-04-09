@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/sonner"
 export const metadata: Metadata = {
     title: "Screenshot To Code",
     description:
-      "Convert any screenshot or design to clean code",
+      "Convert Screenshot or Wireframe to clean code",
   };
 
 async function DashboardLayout({
